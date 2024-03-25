@@ -1,11 +1,3 @@
-import "./style.css";
-import { test } from "shared";
-import { setupCounter } from "$/counter.ts";
+import { api } from './utils/api.ts';
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  ${test}
-`;
-
-const counterDiv: HTMLButtonElement =
-  document.querySelector<HTMLButtonElement>("#counter")!;
-setupCounter(counterDiv);
+void api.test();

@@ -4,13 +4,19 @@ import express, {
   type Application,
 } from "express";
 import { test } from "shared";
+import cors from "cors";
 
 const app: Application = express();
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  allowedHeaders: "*"
+}));
 
 app.use(express.json());
 
 app.get("/", (_req: Request, res: Response) => {
-  res.send(test);
+  res.json({ text: test });
 });
 
 app.listen(5000, () => {
