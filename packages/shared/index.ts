@@ -8,6 +8,6 @@ export const todoSchema = z.object({
 
 export type Todo = z.infer<typeof todoSchema>;
 
-export const test = "Hello World!!1";
+export type GetTodoResponse = Todo[];
 
-// TODO: 139. Configuring Prettier & ESLint in Monorepos
+// TODO: 141. Challenge Fullstack Todo Application
