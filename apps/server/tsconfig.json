@@ -1,6 +1,8 @@
 {
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "require": [
+      "tsconfig-paths/register"
+    ]
   },
   "compilerOptions": {
     "target": "ES2016",
@@ -13,8 +15,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "$/*": ["./src/*"]
+      "$/*": [
+        "./src/*"
+      ]
     }
   },
-  "include": ["./src/**/*.ts", ".eslintrc.cjs"]
+  "include": [
+    "./src/**/*.ts",
+    ".eslintrc.cjs",
+    "vitest.config.js"
+  ]
 }
