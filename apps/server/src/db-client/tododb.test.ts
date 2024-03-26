@@ -1,8 +1,8 @@
 import { afterAll, expect, test } from "vitest";
-import { Database } from "./tododb";
 import { beforeEach } from "node:test";
 import path from "node:path";
 import { promises as fs } from "fs";
+import { Database } from "$/db-client/tododb";
 
 const TEST_FILE_PATH = "./store.test.json";
 const database = new Database(TEST_FILE_PATH);
@@ -20,3 +20,5 @@ test("create a todo will add todo to list", async () => {
   expect(todo.title).toBe("new Todo");
   expect(todo).toHaveProperty("completed", false);
 });
+
+// TODO: Challenge: Add Tests for remaining functionality
