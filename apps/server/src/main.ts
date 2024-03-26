@@ -1,26 +1,22 @@
-import express, {
-  type Request,
-  type Response,
-  type Application,
-} from "express";
-import { GetTodoResponse, Todo, todoSchema } from "shared";
+import express, { type Application, type Request, type Response } from "express";
+import { type GetTodoResponse, type Todo, todoSchema } from "shared";
 import cors from "cors";
 
 const app: Application = express();
 
 app.use(cors({
   origin: "http://localhost:5173",
-  allowedHeaders: "*"
+  allowedHeaders: "*",
 }));
 
 app.use(express.json());
 
-app.get("/", (_req: Request, res: Response) => {
+app.get("/", (_req: Request, res: Response): void => {
   const query = todoSchema.pick({
     id: true,
     title: true,
-    completed: true
-  }).array().parse(_req.body);
+    completed: true,
+  }).array().parse(_req.body) satisfies GetTodoResponse;
 
   const todos: Todo[] = [];
 
@@ -28,13 +24,12 @@ app.get("/", (_req: Request, res: Response) => {
     const todo: Todo = {
       id: q.id,
       title: q.title,
-      completed: q.completed
+      completed: q.completed,
     };
     todos.push(todo);
   }
 
-  //res.status(200).json({ todos }) satisfies GetTodoResponse;
-  res.status(200).json({ todos });
+  res.status(200).json(todos);
 });
 
 app.listen(5000, () => {
