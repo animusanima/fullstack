@@ -1,6 +1,7 @@
 import express, { type Application, type Request, type Response } from "express";
 import { type GetTodoResponse, type Todo, todoSchema } from "shared";
 import cors from "cors";
+import { errorHandlerMiddleware } from "$/common/middlewares/error-handler.middleware";
 
 const app: Application = express();
 
@@ -31,6 +32,8 @@ app.get("/", (_req: Request, res: Response): void => {
 
   res.status(200).json(todos);
 });
+
+app.use(errorHandlerMiddleware);
 
 app.listen(5000, () => {
   console.log("Server running on port 5000");
