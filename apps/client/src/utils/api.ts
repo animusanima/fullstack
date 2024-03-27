@@ -1,14 +1,14 @@
-import { CreateTodoInput, type Todo, UpdateTodoInput } from "@repo/shared";
+import { type CreateTodoInput, type Todo, type UpdateTodoInput } from "@repo/shared";
 
 const API_URL = "http://localhost:5000";
 
 export const api = {
   getAllTodos: async () => {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}/todos`);
     const json: unknown = await response.json();
     return json as Todo[];
   },
-  
+
   deleteTodoById: async (id: string) => {
     await fetch(`${API_URL}/${id}`, {
       method: "DELETE",
@@ -26,7 +26,7 @@ export const api = {
   },
 
   createTodo: async (input: CreateTodoInput) => {
-    const response = await fetch(`${API_URL}`, {
+    const response = await fetch(`${API_URL}/todos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
