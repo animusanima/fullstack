@@ -1,14 +1,36 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <button id="counter"/>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + TS</title>
+</head>
+<script type="module" src="/src/main.ts"></script>
+
+<body>
+<div id="app">
+  <form id="todoForm">
+    <div id="todos">
+      <h2>Vite Todo Application</h2>
+    </div>
+
+    <div id="createNewTodoArea">
+      <h2>Create new todo</h2>
+      <label for="todoTitle">Todo title</label>
+      <input type="text" id="todoTitle" />
+      <button type="submit" id="createTodo">Create todo</button>
+    </div>
+
+    <div id="buttonArea">
+      <br />
+      <button type="submit" id="getAllTodos">Get all Todos</button>
+      <div id="allTodosArea">
+        
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
 </html>
