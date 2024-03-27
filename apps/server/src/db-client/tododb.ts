@@ -4,11 +4,11 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import path from "node:path";
 import {
-  type ReadJsonResult,
-  type DeleteArgs,
-  type FindUniqueArgs,
-  type DeleteManyArgs,
   type CreateArgs,
+  type DeleteArgs,
+  type DeleteManyArgs,
+  type FindUniqueArgs,
+  type ReadJsonResult,
   type UpdateArgs,
 } from "./api.types";
 import { HttpError } from "$/common/exceptions/http-error.exception";
@@ -39,7 +39,12 @@ export class Database {
         await fs.writeFile(path.join(__dirname, this.filePath), JSON.stringify({}), "utf-8");
         return { success: false, error: new Error(`Invalid data at ${this.filePath}`) };
       }
-      return { success: false, error: error instanceof Error ? error : new Error("Unknown error") };
+      return {
+        success: false, error: error instanceof Error ? error : new HttpError({
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: "Unknown error",
+        }),
+      };
     }
   }
 
@@ -47,7 +52,10 @@ export class Database {
     try {
       await fs.writeFile(path.join(__dirname, this.filePath), JSON.stringify(todos), "utf-8");
     } catch (error) {
-      console.log("Error writing file", error);
+      throw new HttpError({
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: "Error writing to file",
+      });
     }
   }
 
@@ -86,7 +94,7 @@ export class Database {
     if (!jsonResult.success) {
       throw new HttpError({
         code: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: `Error reading todos from path ${this.filePath}`,
+        message: `Error finding all todos`,
       });
     }
     return jsonResult.todos;

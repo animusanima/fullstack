@@ -39,7 +39,7 @@ const deleteRequest = async (_req: Request, res: Response): Promise<void> => {
   try {
     const todoId = todoSchema.shape.id.parse(_req.params.id);
     await database.deleteTodo({ id: todoId.toString() });
-    res.status(HttpStatus.OK).send(todoId);
+    res.status(HttpStatus.NO_CONTENT).send();
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
   }
@@ -49,16 +49,18 @@ const deleteManyRequest = async (_req: Request, res: Response): Promise<void> =>
   try {
     const todoIds = z.array(todoSchema.shape.id).parse(_req.params.id);
     await database.deleteManyTodos({ ids: todoIds });
-    res.status(HttpStatus.OK);
+    res.status(HttpStatus.NO_CONTENT).send();
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
   }
 };
 
-todosRouter.get("/", (_req: Request, res: Response) => {
-  const todos = database.findAll();
-  return res.status(HttpStatus.OK).json(JSON.stringify(todos));
-});
+const getAllTodosRequest = async (_req: Request, res: Response): Promise<void> => {
+  const todos = await database.findAll();
+  res.status(HttpStatus.OK).json(todos);
+};
+
+todosRouter.get("/", asyncHandler(getAllTodosRequest));
 
 todosRouter.delete("/:id", asyncHandler(deleteRequest));
 
