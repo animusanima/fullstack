@@ -11,6 +11,8 @@ import {
   type CreateArgs,
   type UpdateArgs,
 } from "./api.types";
+import { HttpError } from "$/common/exceptions/http-error.exception";
+import { HttpStatus } from "$/common/enums/http-status.enum";
 
 export class Database {
   constructor(private readonly filePath: string = "./store.json") {
@@ -54,7 +56,10 @@ export class Database {
 
     const jsonResult: ReadJsonResult = await this.readJson();
     if (!jsonResult.success) {
-      throw new Error("Error reading todos");
+      throw new HttpError({
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: `Error reading todos from path ${this.filePath}`,
+      });
     }
 
     jsonResult.todos.push(newTodo);
@@ -62,24 +67,31 @@ export class Database {
     return newTodo;
   }
 
-  public async findUnique(args: FindUniqueArgs): Promise<Todo | undefined> {
+  public async findUnique(args: FindUniqueArgs): Promise<Todo | null> {
     const jsonResult: ReadJsonResult = await this.readJson();
 
     if (!jsonResult.success) {
-      throw new Error("Error reading todos");
+      throw new HttpError({
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: "Error finding unique todo by id",
+      });
     }
 
-    return jsonResult.todos.find((todo) => todo.id === args.id);
+    const foundTodo = jsonResult.todos.find((todo) => todo.id === args.id);
+    return foundTodo ?? null;
   }
 
-  public async update(args: UpdateArgs): Promise<Todo | undefined> {
+  public async update(args: UpdateArgs): Promise<Todo | null> {
     const jsonResult: ReadJsonResult = await this.readJson();
     if (!jsonResult.success) {
-      throw new Error("Error reading todos");
+      throw new HttpError({
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: "Error updating todo",
+      });
     }
     const todoIndex = jsonResult.todos.findIndex((todo) => todo.id === args.id);
     if (todoIndex === -1) {
-      return undefined;
+      return null;
     }
 
     const updatedTodo = {
@@ -93,32 +105,38 @@ export class Database {
     return updatedTodo;
   }
 
-  public async deleteTodo(args: DeleteArgs): Promise<boolean> {
+  public async deleteTodo(args: DeleteArgs): Promise<void> {
     const jsonResult: ReadJsonResult = await this.readJson();
     if (!jsonResult.success) {
-      throw new Error("Error reading todos");
+      throw new HttpError({
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: `Error reading todos from path ${this.filePath}`,
+      });
     }
     const todoIndex = jsonResult.todos.findIndex((todo) => todo.id === args.id);
 
     if (todoIndex === -1) {
-      return false;
+      return;
     }
 
     jsonResult.todos.splice(todoIndex, 1);
     await this.writeJson(jsonResult.todos);
-    return true;
   }
 
   public async deleteManyTodos(args: DeleteManyArgs): Promise<void> {
+    const jsonResult: ReadJsonResult = await this.readJson();
+    if (!jsonResult.success) {
+      throw new HttpError({
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: `Error reading todos from path ${this.filePath}`,
+      });
+    }
+
     if ("clearAll" in args) {
       await this.writeJson([]);
       return;
     }
 
-    const jsonResult: ReadJsonResult = await this.readJson();
-    if (!jsonResult.success) {
-      throw new Error("Error reading todos");
-    }
     const newTodos = jsonResult.todos.filter((todo) => !args.ids.includes(todo.id));
     await this.writeJson(newTodos);
   }

@@ -36,6 +36,19 @@ test("Finding unique todo from database", async () => {
   expect(foundTodo).toHaveProperty("completed", true);
 });
 
+test("Finding unique todo not in database", async () => {
+  await database.create({ title: "new Todo", completed: false });
+  await database.create({ title: "another Todo", completed: true });
+  await database.create({ title: "yet another Todo", completed: true });
+  const uniqueArgs: FindUniqueArgs = {
+    id: "123467",
+  };
+
+  const foundTodo = await database.findUnique(uniqueArgs);
+
+  expect(foundTodo).toBeNull();
+});
+
 test("Updating existing todo with new title", async () => {
   const todo = await database.create({ title: "nwe Todo", completed: false });
 
@@ -65,7 +78,7 @@ test("Updating a non-existing todo will return undefined", async () => {
 
   const updatedTodo = await database.update(updateArgs);
 
-  expect(updatedTodo).toBeUndefined();
+  expect(updatedTodo).toBeNull();
 });
 
 test("Deleting an existing todo will remove it from database", async () => {
@@ -74,8 +87,9 @@ test("Deleting an existing todo will remove it from database", async () => {
   const deleteArgs: DeleteArgs = {
     id: todo.id,
   };
-  const deleted = await database.deleteTodo(deleteArgs);
-  expect(deleted).toBeTruthy();
+  await database.deleteTodo(deleteArgs);
+  const foundTodo = await database.findUnique({ id: todo.id });
+  expect(foundTodo).toBeNull();
 });
 
 test("Deleting a non-existing todo will do nothing and return false", async () => {
@@ -99,17 +113,17 @@ test("Deleting many with clearAll wipes database", async () => {
   let searchedTodo = await database.findUnique({
     id: todos[0].id,
   });
-  expect(searchedTodo).toBeUndefined();
+  expect(searchedTodo).toBeNull();
 
   searchedTodo = await database.findUnique({
     id: todos[1].id,
   });
-  expect(searchedTodo).toBeUndefined();
+  expect(searchedTodo).toBeNull();
 
   searchedTodo = await database.findUnique({
     id: todos[2].id,
   });
-  expect(searchedTodo).toBeUndefined();
+  expect(searchedTodo).toBeNull();
 });
 
 test("Deleting many with existing ids will remove entries from database", async () => {
@@ -129,12 +143,12 @@ test("Deleting many with existing ids will remove entries from database", async 
   let searchedTodo = await database.findUnique({
     id: todos[0].id,
   });
-  expect(searchedTodo).toBeUndefined();
+  expect(searchedTodo).toBeNull();
 
   searchedTodo = await database.findUnique({
     id: todos[1].id,
   });
-  expect(searchedTodo).toBeUndefined();
+  expect(searchedTodo).toBeNull();
 
   searchedTodo = await database.findUnique({
     id: todos[2].id,
