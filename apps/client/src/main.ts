@@ -1,3 +1,3 @@
-import { api } from './utils/api.ts';
+import { api } from "./utils/api.ts";
 
-void api.test();
+void api.getAllTodos();
