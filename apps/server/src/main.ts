@@ -1,7 +1,7 @@
-import express, { type Application, type Request, type Response } from "express";
-import { type GetTodoResponse, type Todo, todoSchema } from "shared";
+import express, { type Application } from "express";
 import cors from "cors";
 import { errorHandlerMiddleware } from "$/common/middlewares/error-handler.middleware";
+import { todosRouter } from "$/routers/todos/todos.routers";
 
 const app: Application = express();
 
@@ -11,27 +11,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
-app.get("/", (_req: Request, res: Response): void => {
-  const query = todoSchema.pick({
-    id: true,
-    title: true,
-    completed: true,
-  }).array().parse(_req.body) satisfies GetTodoResponse;
-
-  const todos: Todo[] = [];
-
-  for (const q of query) {
-    const todo: Todo = {
-      id: q.id,
-      title: q.title,
-      completed: q.completed,
-    };
-    todos.push(todo);
-  }
-
-  res.status(200).json(todos);
-});
+app.use("/todos", todosRouter);
 
 app.use(errorHandlerMiddleware);
 

@@ -1,4 +1,4 @@
-import type { Todo } from "shared";
+import type { Todo } from "@repo/shared";
 
 export type ReadJsonResult = {
   success: true;

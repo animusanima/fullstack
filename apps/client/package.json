@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "shared": "workspace:*",
+    "@repo/shared": "workspace:*",
     "eslint-config-custom": "workspace:*"
   },
   "devDependencies": {
