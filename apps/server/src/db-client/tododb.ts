@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-import { type Todo, todoSchema } from "shared";
+import { type Todo, todoSchema } from "@repo/shared";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import path from "node:path";
@@ -79,6 +79,17 @@ export class Database {
 
     const foundTodo = jsonResult.todos.find((todo) => todo.id === args.id);
     return foundTodo ?? null;
+  }
+
+  public async findAll(): Promise<Todo[]> {
+    const jsonResult: ReadJsonResult = await this.readJson();
+    if (!jsonResult.success) {
+      throw new HttpError({
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: `Error reading todos from path ${this.filePath}`,
+      });
+    }
+    return jsonResult.todos;
   }
 
   public async update(args: UpdateArgs): Promise<Todo | null> {
