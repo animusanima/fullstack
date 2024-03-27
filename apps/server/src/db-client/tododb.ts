@@ -119,7 +119,7 @@ export class Database {
     if (!jsonResult.success) {
       throw new Error("Error reading todos");
     }
-    const newTodos = jsonResult.todos.filter((todo) => args.ids.includes(todo.id));
+    const newTodos = jsonResult.todos.filter((todo) => !args.ids.includes(todo.id));
     await this.writeJson(newTodos);
   }
 }
