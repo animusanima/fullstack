@@ -24,6 +24,6 @@
   "include": [
     "./src/**/*.ts",
     ".eslintrc.cjs",
-    "src/elements.ts"
+    "src/utils/elements.ts"
   ]
 }

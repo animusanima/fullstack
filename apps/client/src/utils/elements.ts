@@ -9,7 +9,6 @@ export function getElement<T extends HTMLElement>(query: string): T {
 export const elements = {
   form: getElement<HTMLFormElement>("#todoForm"),
   todoTitle: getElement<HTMLInputElement>("#todoTitle"),
-  queryButton: getElement<HTMLButtonElement>("#getAllTodos"),
   createButton: getElement<HTMLButtonElement>("#createTodo"),
   allTodosArea: getElement<HTMLDivElement>("#allTodosArea"),
 };
