@@ -1,10 +1,10 @@
 import { type CreateTodoInput, type Todo, type UpdateTodoInput } from "@repo/shared";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "http://localhost:5000/todos";
 
 export const api = {
   getAllTodos: async (): Promise<Todo[]> => {
-    const response = await fetch(`${API_URL}/todos`);
+    const response = await fetch(`${API_URL}`);
     const json: unknown = await response.json();
     return json as Todo[];
   },
@@ -26,7 +26,7 @@ export const api = {
   },
 
   createTodo: async (input: CreateTodoInput): Promise<Todo> => {
-    const response = await fetch(`${API_URL}/todos`, {
+    const response = await fetch(`${API_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
