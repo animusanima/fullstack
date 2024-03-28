@@ -17,19 +17,30 @@ async function getAllTodos(): Promise<void> {
   }
 
   elements.allTodosArea.innerHTML = "";
+  const containerDiv = document.createElement("div");
+  containerDiv.className = "fixed-grid has-2-cols";
+  const todoDiv = document.createElement("div");
+  todoDiv.className = "grid";
   for (const todo of todos) {
-    const todoDiv = document.createElement("div");
-    todoDiv.insertAdjacentHTML(
+    const card = document.createElement("div");
+    card.insertAdjacentHTML(
       "beforeend",
-      `
-      <h3>Todo ID: ${todo.id}</h3>
-      <p>Todo title: ${todo.title}</p>
-      <label for="completedCheckbox_${todo.id}">Completed:</label>
-      <input id="completedCheckbox_${todo.id}" type="checkbox" value="${todo.completed}" disabled="disabled">
+      `      
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">${todo.title}</p>
+        </header>
+        <div class="card-content">
+          <label for="completedCheckbox_${todo.id}">Completed:</label>
+          <input id="completedCheckbox_${todo.id}" type="checkbox" value="${todo.completed}" disabled="disabled">        
+        </div>      
+      </div>                      
       `,
     );
-    elements.allTodosArea.appendChild(todoDiv);
+    todoDiv.appendChild(card);
   }
+  containerDiv.appendChild(todoDiv);
+  elements.allTodosArea.appendChild(containerDiv);
 }
 
 async function createTodo(): Promise<void> {
@@ -40,8 +51,9 @@ async function createTodo(): Promise<void> {
     completed: false,
   };
 
-
   await api.createTodo(todo);
+
+  void (() => elements.todoTitle.value = "")();
 }
 
 elements.queryButton.onclick = () => getAllTodos;
