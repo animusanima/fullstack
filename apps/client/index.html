@@ -1,32 +1,32 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite + TS</title>
+  <title>&#128393; Todo Application</title>
+  <script type="module" src="/src/main.ts"></script>
 </head>
-<script type="module" src="/src/main.ts"></script>
 
 <body>
 <div id="app">
   <form id="todoForm">
-    <div id="todos">
-      <h2>Vite Todo Application</h2>
-    </div>
-
-    <div id="createNewTodoArea">
-      <h2>Create new todo</h2>
-      <label for="todoTitle">Todo title</label>
-      <input type="text" id="todoTitle" />
-      <button type="submit" id="createTodo">Create todo</button>
+    <div class="block">
+      <h2 class="title">Create new todo</h2>
+      <div id="createNewTodoArea">
+        <div class="field">
+          <label class="label">Todo title</label>
+          <div class="control">
+            <input id="todoTitle" class="input" type="text" placeholder="Enter todo title">
+          </div>
+        </div>
+        <button type="submit" id="createTodo" class="button is-success">Create todo</button>
+      </div>
     </div>
 
     <div id="buttonArea">
-      <br />
       <button type="submit" id="getAllTodos">Get all Todos</button>
       <div id="allTodosArea">
-        
       </div>
     </div>
   </form>
