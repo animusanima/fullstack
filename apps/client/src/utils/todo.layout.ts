@@ -16,9 +16,11 @@ function createLayoutForTodo(todos: Todo[]): HTMLDivElement {
           <p class="card-header-title">${todo.title}</p>
         </header>
         <div class="card-content">
-          <label for="completedCheckbox_${todo.id}">Completed:</label>
-          <input id="completedCheckbox_${todo.id}" type="checkbox" value="${todo.completed}">        
-        </div>      
+          <label for="completedCheckbox_${todo.id}">Completed: ${todo.completed ? "yes" : "no"}</label>        
+        </div>
+        <footer class="card-footer">
+          <button id="editButton_${todo.id}" class="button is-info card-footer-item" title="Edit existing todo">Edit</button>
+        </footer>
       </div>                      
       `,
     );
