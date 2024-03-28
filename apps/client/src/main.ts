@@ -5,6 +5,14 @@ import { layoutHelper } from "./utils/todo.layout.ts";
 
 let todos: Todo[];
 
+// TODO: Implement updating todos
+
+// TODO: Implement deletion todos
+
+// TODO: Implement deletion of many todos
+
+// TODO: Implement moving unfinished todos to completed list
+
 function showAllTodos(): void {
   elements.unfinishedTodosArea.innerHTML = "";
   const containerDiv = layoutHelper.createLayoutForTodo(todos);
