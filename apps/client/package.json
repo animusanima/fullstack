@@ -13,6 +13,7 @@
     "eslint-config-custom": "workspace:*"
   },
   "devDependencies": {
+    "bulma": "^1.0.0",
     "typescript": "^5.4.3",
     "vite": "^5.2.6"
   }
