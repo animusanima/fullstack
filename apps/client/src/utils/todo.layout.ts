@@ -1,34 +1,64 @@
 import { type Todo } from "@repo/shared";
+import { storage } from "./todo.storage.ts";
 
 function createLayoutForTodo(todos: Todo[]): HTMLDivElement {
-  const containerDiv = document.createElement("div");
-  containerDiv.className = "fixed-grid";
-  const todoDiv = document.createElement("div");
-  todoDiv.className = "grid";
+  const containerGrid = document.createElement("div");
+  containerGrid.className = "fixed-grid";
+  const todoGrid = document.createElement("div");
+  todoGrid.className = "grid";
 
   for (const todo of todos) {
+    const cardContainer = document.createElement("div");
     const card = document.createElement("div");
-    card.insertAdjacentHTML(
-      "beforeend",
-      `      
-      <div class="card">
-        <header class="card-header">
-          <p class="card-header-title">${todo.title}</p>
-        </header>
-        <div class="card-content">
-          <label for="completedCheckbox_${todo.id}">Completed: ${todo.completed ? "yes" : "no"}</label>        
-        </div>
-        <footer class="card-footer">
-          <button id="editButton_${todo.id}" class="button is-info card-footer-item" title="Edit existing todo">Edit</button>
-        </footer>
-      </div>                      
-      `,
-    );
-    todoDiv.appendChild(card);
+    card.className = "card";
+
+    const cardHeader = document.createElement("header");
+    cardHeader.className = "card-header";
+
+    const cardHeaderTitle = document.createElement("p");
+    cardHeaderTitle.className = "card-header-title is-centered";
+    cardHeaderTitle.textContent = todo.title;
+
+    const cardContent = document.createElement("div");
+    cardContent.className = "card-content";
+
+    const completedLabel = document.createElement("label");
+    completedLabel.textContent = `Completed: ${todo.completed ? "yes" : "no"}`;
+
+    const cardFooter = document.createElement("footer");
+    cardFooter.className = "card-footer";
+
+    const editButton = document.createElement("button");
+    editButton.className = "button is-info card-footer-item";
+    editButton.title = "Edit todo";
+    editButton.textContent = "Edit";
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "button is-danger card-footer-item";
+    deleteButton.title = "Delete todo";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+      void (async () => {
+        await storage.removeTodo(todo);
+      })();
+    });
+
+    cardHeader.appendChild(cardHeaderTitle);
+    cardContent.appendChild(completedLabel);
+    cardFooter.appendChild(editButton);
+    cardFooter.appendChild(deleteButton);
+
+    card.appendChild(cardHeader);
+    card.appendChild(cardContent);
+    card.appendChild(cardFooter);
+
+    cardContainer.appendChild(card);
+
+    todoGrid.appendChild(cardContainer);
   }
 
-  containerDiv.appendChild(todoDiv);
-  return containerDiv;
+  containerGrid.appendChild(todoGrid);
+  return containerGrid;
 }
 
 export const layoutHelper = {
