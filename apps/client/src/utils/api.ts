@@ -3,13 +3,13 @@ import { type CreateTodoInput, type Todo, type UpdateTodoInput } from "@repo/sha
 const API_URL = "http://localhost:5000";
 
 export const api = {
-  getAllTodos: async () => {
+  getAllTodos: async (): Promise<Todo[]> => {
     const response = await fetch(`${API_URL}/todos`);
     const json: unknown = await response.json();
     return json as Todo[];
   },
 
-  deleteTodoById: async (id: string) => {
+  deleteTodoById: async (id: string): Promise<void> => {
     await fetch(`${API_URL}/${id}`, {
       method: "DELETE",
     });
@@ -25,7 +25,7 @@ export const api = {
     });
   },
 
-  createTodo: async (input: CreateTodoInput) => {
+  createTodo: async (input: CreateTodoInput): Promise<Todo> => {
     const response = await fetch(`${API_URL}/todos`, {
       method: "POST",
       headers: {
