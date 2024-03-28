@@ -18,7 +18,7 @@ async function getAllTodos(): Promise<void> {
 
   elements.allTodosArea.innerHTML = "";
   const containerDiv = document.createElement("div");
-  containerDiv.className = "fixed-grid has-2-cols";
+  containerDiv.className = "fixed-grid";
   const todoDiv = document.createElement("div");
   todoDiv.className = "grid";
   for (const todo of todos) {
