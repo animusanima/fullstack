@@ -13,7 +13,7 @@
   <div class="container">
     <form id="todoForm">
       <div class="panel is-link">
-        <p class="panel-heading">Create a new todo</p>
+        <p class="panel-heading has-text-centered">Create a new todo</p>
         <div class="panel-block">
           <div id="createNewTodoArea">
             <div class="field is-grouped">
@@ -21,7 +21,8 @@
                 <input id="todoTitle" class="input" type="text" placeholder="Enter todo title">
               </div>
               <div class="control">
-                <button type="submit" id="createTodo" class="button is-success" title="Add a new todo to the database">
+                <button type="submit" id="createTodo" class="button is-success is-rounded"
+                        title="Add a new todo to the database">
                   Add new todo
                 </button>
               </div>
@@ -32,16 +33,16 @@
 
       <div class="block">
         <div class="panel is-danger">
-          <p class="panel-heading">Unfinished todos</p>
-        </div>
-        <div class="panel-list">
-          <div id="unfinishedTodosArea"></div>
+          <p class="panel-heading has-text-centered">Unfinished todos</p>
+          <div class="panel-list">
+            <div id="unfinishedTodosArea"></div>
+          </div>
         </div>
       </div>
 
       <div class="block">
         <div class="panel is-success">
-          <p class="panel-heading">Completed todos</p>
+          <p class="panel-heading has-text-centered">Completed todos</p>
         </div>
         <div id="completedTodosArea"></div>
       </div>
