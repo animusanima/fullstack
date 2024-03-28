@@ -1,9 +1,7 @@
 import { api } from "./utils/api.ts";
-import { type CreateTodoInput, type Todo } from "@repo/shared";
+import { type CreateTodoInput, Todo } from "@repo/shared";
 import { elements } from "./utils/elements.ts";
-import { layoutHelper } from "./utils/todo.layout.ts";
-
-let todos: Todo[];
+import { storage } from "./utils/todo.storage.ts";
 
 // TODO: Implement updating todos
 
@@ -13,25 +11,18 @@ let todos: Todo[];
 
 // TODO: Implement moving unfinished todos to completed list
 
-function showAllTodos(): void {
-  elements.unfinishedTodosArea.innerHTML = "";
-  const containerDiv = layoutHelper.createLayoutForTodo(todos);
-  elements.unfinishedTodosArea.appendChild(containerDiv);
-}
-
 async function getAllTodos(): Promise<void> {
-  todos = [];
-
+  const loadedTodos: Todo[] = [];
   const receivedTodos = await api.getAllTodos();
   for (const todo of receivedTodos) {
-    todos.push({
+    loadedTodos.push({
       id: todo.id,
       title: todo.title,
       completed: todo.completed,
     });
   }
-
-  showAllTodos();
+  storage.storeTodos(loadedTodos);
+  storage.showAllTodos();
 }
 
 async function createTodo(): Promise<void> {
@@ -43,11 +34,11 @@ async function createTodo(): Promise<void> {
   };
 
   const newTodo = await api.createTodo(todo);
-  todos.push(newTodo);
+  storage.storeTodo(newTodo);
 
   void (() => elements.todoTitle.value = "")();
 
-  showAllTodos();
+  storage.showAllTodos();
 }
 
 elements.form.onsubmit = async (e): Promise<void> => {
@@ -55,7 +46,7 @@ elements.form.onsubmit = async (e): Promise<void> => {
 
   if (e.submitter instanceof HTMLButtonElement) {
     if (e.submitter.id === "showTodos") {
-      showAllTodos();
+      storage.showAllTodos();
     } else if (e.submitter.id === "createTodo") {
       await createTodo();
     }
