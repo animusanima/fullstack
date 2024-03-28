@@ -1,8 +1,15 @@
 import { api } from "./utils/api.ts";
 import { type CreateTodoInput, type Todo } from "@repo/shared";
-import { elements } from "./elements.ts";
+import { elements } from "./utils/elements.ts";
+import { layoutHelper } from "./utils/todo.layout.ts";
 
 let todos: Todo[];
+
+function showAllTodos(): void {
+  elements.allTodosArea.innerHTML = "";
+  const containerDiv = layoutHelper.createLayoutForTodo(todos);
+  elements.allTodosArea.appendChild(containerDiv);
+}
 
 async function getAllTodos(): Promise<void> {
   todos = [];
@@ -16,31 +23,7 @@ async function getAllTodos(): Promise<void> {
     });
   }
 
-  elements.allTodosArea.innerHTML = "";
-  const containerDiv = document.createElement("div");
-  containerDiv.className = "fixed-grid";
-  const todoDiv = document.createElement("div");
-  todoDiv.className = "grid";
-  for (const todo of todos) {
-    const card = document.createElement("div");
-    card.insertAdjacentHTML(
-      "beforeend",
-      `      
-      <div class="card">
-        <header class="card-header">
-          <p class="card-header-title">${todo.title}</p>
-        </header>
-        <div class="card-content">
-          <label for="completedCheckbox_${todo.id}">Completed:</label>
-          <input id="completedCheckbox_${todo.id}" type="checkbox" value="${todo.completed}" disabled="disabled">        
-        </div>      
-      </div>                      
-      `,
-    );
-    todoDiv.appendChild(card);
-  }
-  containerDiv.appendChild(todoDiv);
-  elements.allTodosArea.appendChild(containerDiv);
+  showAllTodos();
 }
 
 async function createTodo(): Promise<void> {
@@ -51,20 +34,24 @@ async function createTodo(): Promise<void> {
     completed: false,
   };
 
-  await api.createTodo(todo);
+  const newTodo = await api.createTodo(todo);
+  todos.push(newTodo);
 
   void (() => elements.todoTitle.value = "")();
+
+  showAllTodos();
 }
 
-elements.queryButton.onclick = () => getAllTodos;
 elements.form.onsubmit = async (e): Promise<void> => {
   e.preventDefault();
 
   if (e.submitter instanceof HTMLButtonElement) {
-    if (e.submitter.id === "getAllTodos") {
-      await getAllTodos();
+    if (e.submitter.id === "showTodos") {
+      showAllTodos();
     } else if (e.submitter.id === "createTodo") {
       await createTodo();
     }
   }
 };
+
+void getAllTodos();
