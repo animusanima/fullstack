@@ -39,7 +39,7 @@ function createLayoutForTodo(todos: Todo[]): HTMLDivElement {
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener("click", () => {
       void (async () => {
-        await storage.removeTodo(todo);
+        await storage.deleteTodo(todo);
       })();
     });
 
