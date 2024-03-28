@@ -10,5 +10,6 @@ export const elements = {
   form: getElement<HTMLFormElement>("#todoForm"),
   todoTitle: getElement<HTMLInputElement>("#todoTitle"),
   createButton: getElement<HTMLButtonElement>("#createTodo"),
-  allTodosArea: getElement<HTMLDivElement>("#allTodosArea"),
+  unfinishedTodosArea: getElement<HTMLDivElement>("#unfinishedTodosArea"),
+  completedTodosArea: getElement<HTMLDivElement>("#completedTodosArea"),
 };

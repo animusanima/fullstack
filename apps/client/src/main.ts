@@ -6,9 +6,9 @@ import { layoutHelper } from "./utils/todo.layout.ts";
 let todos: Todo[];
 
 function showAllTodos(): void {
-  elements.allTodosArea.innerHTML = "";
+  elements.unfinishedTodosArea.innerHTML = "";
   const containerDiv = layoutHelper.createLayoutForTodo(todos);
-  elements.allTodosArea.appendChild(containerDiv);
+  elements.unfinishedTodosArea.appendChild(containerDiv);
 }
 
 async function getAllTodos(): Promise<void> {
