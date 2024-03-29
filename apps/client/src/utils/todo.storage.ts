@@ -2,6 +2,7 @@ import type { CreateTodoInput, Todo } from "@repo/shared";
 import { elements } from "./elements.ts";
 import { layoutHelper } from "./todo.layout.ts";
 import { api } from "./api.ts";
+import { NotificationHelper } from "./todo.notification.ts";
 
 const storedTodos: Todo[] = [];
 
@@ -24,6 +25,9 @@ export async function deleteTodo(todo: Todo): Promise<void> {
 
   const todoIndex = storedTodos.findIndex((element) => element.id === todo.id);
   storedTodos.splice(todoIndex, 1);
+
+  NotificationHelper.showDeletedNotification();
+
   showAllTodos();
 }
 
@@ -39,6 +43,8 @@ export async function createTodo(title: string): Promise<void> {
 
   const newTodo = await api.createTodo(todo);
   storeTodo(newTodo);
+
+  NotificationHelper.showSuccessNotification();
 
   void (() => elements.todoTitle.value = "")();
 
