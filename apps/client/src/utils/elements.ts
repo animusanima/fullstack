@@ -12,4 +12,6 @@ export const elements = {
   createButton: getElement<HTMLButtonElement>("#createTodo"),
   unfinishedTodosArea: getElement<HTMLDivElement>("#unfinishedTodosArea"),
   completedTodosArea: getElement<HTMLDivElement>("#completedTodosArea"),
+  notificationArea: getElement<HTMLDivElement>("#notificationArea"),
+  closeNotificationButton: getElement<HTMLButtonElement>("#closeNotificationButton"),
 };
