@@ -1,33 +1,41 @@
-import { elements } from "./elements.ts";
+import Toastify from "toastify-js";
 
 const TODO_SAVED_SUCCESSFULLY = "Todo has been saved successfully";
 const TODO_DELETED_SUCCESSFULLY = "Todo has been deleted successfully";
 
-function setNotificationText(textToShow: string): void {
-  elements.notificationText.textContent = textToShow;
-}
-
 function showSuccessNotification(): void {
-  setNotificationText(TODO_SAVED_SUCCESSFULLY);
-  elements.notification.className = "notification is-success";
-  elements.notificationArea.removeAttribute("class");
+  Toastify({
+    text: TODO_SAVED_SUCCESSFULLY,
+    duration: 2500,
+    newWindow: false,
+    close: false,
+    gravity: "top",
+    position: "right",
+    oldestFirst: true,
+    style: {
+      background: "rgb(72, 199, 142)",
+      color: "rgb(0, 0, 0)",
+    },
+  }).showToast();
 }
 
 function showDeletedNotification(): void {
-  setNotificationText(TODO_DELETED_SUCCESSFULLY);
-  elements.notification.className = "notification is-danger";
-  elements.notificationArea.removeAttribute("class");
+  Toastify({
+    text: TODO_DELETED_SUCCESSFULLY,
+    duration: 2500,
+    newWindow: false,
+    close: false,
+    gravity: "top",
+    position: "right",
+    oldestFirst: true,
+    style: {
+      background: "rgb(255, 102, 133)",
+      color: "rgb(0, 0, 0)",
+    },
+  }).showToast();
 }
 
 export const NotificationHelper = {
   showSuccessNotification,
   showDeletedNotification,
 };
-
-function initClickEvents(): void {
-  elements.closeNotificationButton.addEventListener("click", () => {
-    elements.notificationArea.setAttribute("class", "is-hidden");
-  });
-}
-
-initClickEvents();
