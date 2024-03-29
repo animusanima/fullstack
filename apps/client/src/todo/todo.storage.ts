@@ -1,15 +1,15 @@
 import type { CreateTodoInput, Todo } from "@repo/shared";
-import { elements } from "./elements.ts";
+import { todoElements } from "./todo.elements.ts";
 import { layoutHelper } from "./todo.layout.ts";
-import { api } from "./api.ts";
+import { api } from "./todo.api.ts";
 import { NotificationHelper } from "./todo.notification.ts";
 
 const storedTodos: Todo[] = [];
 
 function showAllTodos(): void {
-  elements.unfinishedTodosArea.innerHTML = "";
+  todoElements.unfinishedTodosArea.innerHTML = "";
   const containerDiv = layoutHelper.createLayoutForTodo(storedTodos);
-  elements.unfinishedTodosArea.appendChild(containerDiv);
+  todoElements.unfinishedTodosArea.appendChild(containerDiv);
 }
 
 function storeTodos(todos: Todo[]): void {
@@ -46,7 +46,7 @@ export async function createTodo(title: string): Promise<void> {
 
   NotificationHelper.showSuccessNotification();
 
-  void (() => elements.todoTitle.value = "")();
+  void (() => todoElements.todoTitle.value = "")();
 
   showAllTodos();
 }
