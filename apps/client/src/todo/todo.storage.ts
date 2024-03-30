@@ -54,6 +54,11 @@ export async function deleteTodo(todo: Todo): Promise<void> {
 export async function deleteManyTodos(todos: Todo[]): Promise<void> {
   for (const todo of todos) {
     await api.deleteTodoById(todo.id);
+
+    if (todo.completed) {
+      const todoIndex = completedTodos.findIndex(element => element.id == todo.id);
+      completedTodos.splice(todoIndex, 1);
+    }
   }
 
   NotificationHelper.showDeletedNotification();
