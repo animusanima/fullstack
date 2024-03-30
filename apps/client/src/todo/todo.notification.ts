@@ -10,7 +10,7 @@ function showSuccessNotification(): void {
     newWindow: false,
     close: false,
     gravity: "top",
-    position: "center",
+    position: "right",
     oldestFirst: true,
     style: {
       background: "rgb(72, 199, 142)",
@@ -26,7 +26,7 @@ function showDeletedNotification(): void {
     newWindow: false,
     close: false,
     gravity: "top",
-    position: "center",
+    position: "right",
     oldestFirst: true,
     style: {
       background: "rgb(255, 102, 133)",
