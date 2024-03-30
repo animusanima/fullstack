@@ -71,8 +71,48 @@ function createLayoutForTodo(todos: Todo[]): HTMLDivElement {
   return containerGrid;
 }
 
+function createCompletedTodosLayout(todos: Todo[]): HTMLDivElement {
+  const containerGrid = document.createElement("div");
+  containerGrid.className = "fixed-grid";
+  const todoGrid = document.createElement("div");
+  todoGrid.className = "grid";
+
+  for (const todo of todos) {
+    const cardContainer = document.createElement("div");
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const cardHeader = document.createElement("header");
+    cardHeader.className = "card-header";
+
+    const cardHeaderTitle = document.createElement("p");
+    cardHeaderTitle.className = "card-header-title is-centered ";
+    cardHeaderTitle.textContent = todo.title;
+
+    const cardContent = document.createElement("div");
+    cardContent.className = "card-content";
+
+    const completedLabel = document.createElement("label");
+    completedLabel.textContent = `Completed: ${todo.completed ? "yes" : "no"}`;
+
+    cardHeader.appendChild(cardHeaderTitle);
+    cardContent.appendChild(completedLabel);
+
+    card.appendChild(cardHeader);
+    card.appendChild(cardContent);
+
+    cardContainer.appendChild(card);
+
+    todoGrid.appendChild(cardContainer);
+  }
+
+  containerGrid.appendChild(todoGrid);
+  return containerGrid;
+}
+
 export const layoutHelper = {
   createLayoutForTodo,
+  createCompletedTodosLayout,
 };
 
 todoElements.editTodoForm.onsubmit = async (e): Promise<void> => {

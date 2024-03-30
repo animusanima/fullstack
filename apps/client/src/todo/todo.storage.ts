@@ -6,14 +6,24 @@ import { NotificationHelper } from "./todo.notification.ts";
 
 const storedTodos: Todo[] = [];
 
+const completedTodos: Todo[] = [];
+
 function showAllTodos(): void {
   todoElements.unfinishedTodosArea.innerHTML = "";
-  const containerDiv = layoutHelper.createLayoutForTodo(storedTodos);
-  todoElements.unfinishedTodosArea.appendChild(containerDiv);
+  const unfinished = layoutHelper.createLayoutForTodo(storedTodos);
+  todoElements.unfinishedTodosArea.appendChild(unfinished);
+
+  todoElements.completedTodosArea.innerHTML = "";
+  const completed = layoutHelper.createCompletedTodosLayout(completedTodos);
+  todoElements.completedTodosArea.appendChild(completed);
 }
 
 function storeTodos(todos: Todo[]): void {
   storedTodos.push(...todos);
+}
+
+function storeCompletedTodos(todos: Todo[]): void {
+  completedTodos.push(...todos);
 }
 
 export function storeTodo(todo: Todo): void {
@@ -56,7 +66,8 @@ export async function updateTodo({ todoId, ...input }: UpdateTodoInput & { todoI
 
   const todoIndex = storedTodos.findIndex((elements) => elements.id === todoId);
   if (todoIndex !== -1) {
-    storedTodos[todoIndex] = updatedTodo;
+    completedTodos.push(updatedTodo);
+    storedTodos.splice(todoIndex, 1);
   }
 
   NotificationHelper.showSuccessNotification();
@@ -65,7 +76,11 @@ export async function updateTodo({ todoId, ...input }: UpdateTodoInput & { todoI
 
 export async function getAllTodos(): Promise<void> {
   const receivedTodos = await api.getAllTodos();
-  storeTodos(receivedTodos);
+
+  const unfinishedTodos: Todo[] = receivedTodos.filter(element => !element.completed);
+  const todosCompleted: Todo[] = receivedTodos.filter(element => element.completed);
+  storeTodos(unfinishedTodos);
+  storeCompletedTodos(todosCompleted);
   showAllTodos();
 }
 
