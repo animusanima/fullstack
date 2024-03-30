@@ -42,11 +42,33 @@
         </div>
       </div>
 
-      <div class="block">
+      <div class="block py-4">
         <div class="panel is-success">
           <p class="panel-heading has-text-centered">Completed todos</p>
         </div>
         <div id="completedTodosArea"></div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container">
+  <div class="block">
+    <form id="editTodoForm" class="is-hidden">
+      <div class="panel is-info">
+        <p id="editTodoTitle" class="panel-heading"></p>
+        <div class="panel-block">
+          <div class="field">
+            <div class="control">
+              <label for="completeTodoCheckbox">Complete todo</label>
+              <input id="completeTodoCheckbox" type="checkbox">
+            </div>
+            <div class="control py-2">
+              <button id="saveTodoButton" type="submit" class="button is-success">Save Todo</button>
+              <button id="cancelTodoButton" class="button is-danger">Cancel</button>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   </div>
