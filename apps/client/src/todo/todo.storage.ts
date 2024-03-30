@@ -58,6 +58,9 @@ export async function deleteManyTodos(todos: Todo[]): Promise<void> {
     if (todo.completed) {
       const todoIndex = completedTodos.findIndex(element => element.id == todo.id);
       completedTodos.splice(todoIndex, 1);
+    } else {
+      const todoIndex = storedTodos.findIndex(element => element.id == todo.id);
+      storedTodos.splice(todoIndex, 1);
     }
   }
 
@@ -104,6 +107,10 @@ export function getCompletedTodos(): Todo[] {
   return completedTodos;
 }
 
+export function getUnfinishedTodos(): Todo[] {
+  return storedTodos;
+}
+
 export const storage = {
   createTodo,
   deleteTodo,
@@ -111,4 +118,5 @@ export const storage = {
   getAllTodos,
   updateTodo,
   getCompletedTodos,
+  getUnfinishedTodos,
 };

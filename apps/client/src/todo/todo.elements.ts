@@ -17,4 +17,5 @@ export const todoElements = {
   saveTodoButton: getElement<HTMLButtonElement>("#saveTodoButton"),
   cancelTodoButton: getElement<HTMLButtonElement>("#cancelTodoButton"),
   deleteCompletedButton: getElement<HTMLButtonElement>("#deleteCompletedButton"),
+  deleteUnfinishedButton: getElement<HTMLButtonElement>("#deleteUnfinishedButton"),
 };
