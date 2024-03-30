@@ -1,4 +1,4 @@
-import type { CreateTodoInput, Todo } from "@repo/shared";
+import type { CreateTodoInput, Todo, UpdateTodoInput } from "@repo/shared";
 import { todoElements } from "./todo.elements.ts";
 import { layoutHelper } from "./todo.layout.ts";
 import { api } from "./todo.api.ts";
@@ -51,6 +51,18 @@ export async function createTodo(title: string): Promise<void> {
   showAllTodos();
 }
 
+export async function updateTodo({ todoId, ...input }: UpdateTodoInput & { todoId: string }): Promise<void> {
+  const updatedTodo = await api.updateTodo({ id: todoId, ...input });
+
+  const todoIndex = storedTodos.findIndex((elements) => elements.id === todoId);
+  if (todoIndex !== -1) {
+    storedTodos[todoIndex] = updatedTodo;
+  }
+
+  NotificationHelper.showSuccessNotification();
+  showAllTodos();
+}
+
 export async function getAllTodos(): Promise<void> {
   const receivedTodos = await api.getAllTodos();
   storeTodos(receivedTodos);
@@ -61,4 +73,6 @@ export const storage = {
   createTodo,
   deleteTodo,
   getAllTodos,
+  updateTodo,
+  showAllTodos,
 };

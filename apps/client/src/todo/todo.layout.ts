@@ -1,6 +1,5 @@
 import { type Todo, type UpdateTodoInput } from "@repo/shared";
 import { storage } from "./todo.storage.ts";
-import { NotificationHelper } from "./todo.notification.ts";
 import { todoElements } from "./todo.elements.ts";
 
 let editID: string | null = null;
@@ -90,9 +89,6 @@ todoElements.editTodoForm.onsubmit = async (e): Promise<void> => {
       if (editID !== null) {
         await storage.updateTodo({ todoId: editID, ...updateTodoInput });
         hideForm = true;
-
-        NotificationHelper.showSuccessNotification();
-        storage.showAllTodos();
       }
     } else if (e.submitter.id === "cancelTodoButton") {
       todoElements.editTodoTitle.textContent = "";
