@@ -1,5 +1,9 @@
-import { type Todo } from "@repo/shared";
+import { type Todo, type UpdateTodoInput } from "@repo/shared";
 import { storage } from "./todo.storage.ts";
+import { NotificationHelper } from "./todo.notification.ts";
+import { todoElements } from "./todo.elements.ts";
+
+let editID: string | null = null;
 
 function createLayoutForTodo(todos: Todo[]): HTMLDivElement {
   const containerGrid = document.createElement("div");
@@ -29,9 +33,16 @@ function createLayoutForTodo(todos: Todo[]): HTMLDivElement {
     cardFooter.className = "card-footer";
 
     const editButton = document.createElement("button");
+    editButton.id = todo.id;
     editButton.className = "button is-info card-footer-item";
     editButton.title = "Edit todo";
     editButton.textContent = "Edit";
+    editButton.addEventListener("click", () => {
+      editID = editButton.id;
+      todoElements.completeTodoCheckbox.checked = todo.completed;
+      todoElements.editTodoTitle.textContent = `Edit Todo ${todo.title}`;
+      todoElements.editTodoForm.classList.remove("is-hidden");
+    });
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "button is-danger card-footer-item";
@@ -63,4 +74,40 @@ function createLayoutForTodo(todos: Todo[]): HTMLDivElement {
 
 export const layoutHelper = {
   createLayoutForTodo,
+};
+
+todoElements.editTodoForm.onsubmit = async (e): Promise<void> => {
+  e.preventDefault();
+
+  let hideForm: boolean = false;
+
+  if (e.submitter instanceof HTMLButtonElement) {
+    if (e.submitter.id === "saveTodoButton") {
+      const updateTodoInput: UpdateTodoInput = {
+        completed: todoElements.completeTodoCheckbox.checked,
+      };
+
+      if (editID !== null) {
+        await storage.updateTodo({ todoId: editID, ...updateTodoInput });
+        hideForm = true;
+
+        NotificationHelper.showSuccessNotification();
+        storage.showAllTodos();
+      }
+    } else if (e.submitter.id === "cancelTodoButton") {
+      todoElements.editTodoTitle.textContent = "";
+      todoElements.completeTodoCheckbox.checked = false;
+      hideForm = true;
+    }
+
+    if (hideForm) {
+      todoElements.editTodoForm.classList.add("is-hidden");
+    }
+
+    editID = null;
+  }
+};
+
+todoElements.cancelTodoButton.onclick = () => {
+  todoElements.editTodoForm.classList.add("is-hidden");
 };
