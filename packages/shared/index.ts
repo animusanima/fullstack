@@ -7,7 +7,7 @@ export const todoSchema = z.object({
 });
 export type Todo = z.infer<typeof todoSchema>;
 
-export const createTodoInput = todoSchema.pick({ description: true, title: true, completed: true });
+export const createTodoInput = todoSchema.pick({ title: true, completed: true });
 export type CreateTodoInput = z.infer<typeof createTodoInput>;
 
 export const updateTodoInput = todoSchema.pick({ completed: true });
