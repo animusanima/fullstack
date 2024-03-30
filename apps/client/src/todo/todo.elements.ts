@@ -7,7 +7,6 @@ export function getElement<T extends HTMLElement>(query: string): T {
 }
 
 export const todoElements = {
-  form: getElement<HTMLFormElement>("#todoForm"),
   todoTitle: getElement<HTMLInputElement>("#todoTitle"),
   createButton: getElement<HTMLButtonElement>("#createTodo"),
   unfinishedTodosArea: getElement<HTMLDivElement>("#unfinishedTodosArea"),
