@@ -7,14 +7,8 @@ import { storage } from "./todo/todo.storage.ts";
 
 // TODO: Implement moving unfinished todos to completed list
 
-todoElements.form.onsubmit = async (e): Promise<void> => {
-  e.preventDefault();
-
-  if (e.submitter instanceof HTMLButtonElement) {
-    if (e.submitter.id === "createTodo") {
-      await storage.createTodo(todoElements.todoTitle.value);
-    }
-  }
+todoElements.createButton.onclick = async (): Promise<void> => {
+  await storage.createTodo(todoElements.todoTitle.value);
 };
 
 void storage.getAllTodos();
