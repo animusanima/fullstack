@@ -12,4 +12,9 @@ export const todoElements = {
   createButton: getElement<HTMLButtonElement>("#createTodo"),
   unfinishedTodosArea: getElement<HTMLDivElement>("#unfinishedTodosArea"),
   completedTodosArea: getElement<HTMLDivElement>("#completedTodosArea"),
+  editTodoForm: getElement<HTMLDivElement>("#editTodoForm"),
+  editTodoTitle: getElement<HTMLParagraphElement>("#editTodoTitle"),
+  completeTodoCheckbox: getElement<HTMLInputElement>("#completeTodoCheckbox"),
+  saveTodoButton: getElement<HTMLButtonElement>("#saveTodoButton"),
+  cancelTodoButton: getElement<HTMLButtonElement>("#cancelTodoButton"),
 };
