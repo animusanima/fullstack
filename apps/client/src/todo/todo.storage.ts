@@ -74,5 +74,4 @@ export const storage = {
   deleteTodo,
   getAllTodos,
   updateTodo,
-  showAllTodos,
 };
