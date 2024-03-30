@@ -8,6 +8,14 @@ const storedTodos: Todo[] = [];
 
 const completedTodos: Todo[] = [];
 
+function storeTodos(todos: Todo[]): void {
+  storedTodos.push(...todos);
+}
+
+function storeCompletedTodos(todos: Todo[]): void {
+  completedTodos.push(...todos);
+}
+
 function showAllTodos(): void {
   todoElements.unfinishedTodosArea.innerHTML = "";
   const unfinished = layoutHelper.createLayoutForTodo(storedTodos);
@@ -18,12 +26,14 @@ function showAllTodos(): void {
   todoElements.completedTodosArea.appendChild(completed);
 }
 
-function storeTodos(todos: Todo[]): void {
-  storedTodos.push(...todos);
-}
+export async function getAllTodos(): Promise<void> {
+  const receivedTodos = await api.getAllTodos();
 
-function storeCompletedTodos(todos: Todo[]): void {
-  completedTodos.push(...todos);
+  const unfinishedTodos: Todo[] = receivedTodos.filter(element => !element.completed);
+  const todosCompleted: Todo[] = receivedTodos.filter(element => element.completed);
+  storeTodos(unfinishedTodos);
+  storeCompletedTodos(todosCompleted);
+  showAllTodos();
 }
 
 export function storeTodo(todo: Todo): void {
@@ -39,6 +49,16 @@ export async function deleteTodo(todo: Todo): Promise<void> {
   NotificationHelper.showDeletedNotification();
 
   showAllTodos();
+}
+
+export async function deleteManyTodos(todos: Todo[]): Promise<void> {
+  for (const todo of todos) {
+    await api.deleteTodoById(todo.id);
+  }
+
+  NotificationHelper.showDeletedNotification();
+
+  await getAllTodos();
 }
 
 export async function createTodo(title: string): Promise<void> {
@@ -74,19 +94,16 @@ export async function updateTodo({ todoId, ...input }: UpdateTodoInput & { todoI
   showAllTodos();
 }
 
-export async function getAllTodos(): Promise<void> {
-  const receivedTodos = await api.getAllTodos();
 
-  const unfinishedTodos: Todo[] = receivedTodos.filter(element => !element.completed);
-  const todosCompleted: Todo[] = receivedTodos.filter(element => element.completed);
-  storeTodos(unfinishedTodos);
-  storeCompletedTodos(todosCompleted);
-  showAllTodos();
+export function getCompletedTodos(): Todo[] {
+  return completedTodos;
 }
 
 export const storage = {
   createTodo,
   deleteTodo,
+  deleteManyTodos,
   getAllTodos,
   updateTodo,
+  getCompletedTodos,
 };
