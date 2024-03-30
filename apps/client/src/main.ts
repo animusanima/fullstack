@@ -7,4 +7,8 @@ todoElements.createButton.onclick = async (): Promise<void> => {
   await storage.createTodo(todoElements.todoTitle.value);
 };
 
+todoElements.deleteCompletedButton.onclick = async (): Promise<void> => {
+  await storage.deleteManyTodos(storage.getCompletedTodos());
+};
+
 void storage.getAllTodos();
