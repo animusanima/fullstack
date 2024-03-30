@@ -7,70 +7,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>&#128393; Todo Application</title>
   <script type="module" src="./src/main.ts"></script>
+  <script src="./src/todo/todo.modal.js"></script>
 </head>
 
 <body>
 <div id="app">
   <div class="container">
-    <form id="todoForm">
-      <div class="panel is-link">
-        <p class="panel-heading has-text-centered">Create a new todo</p>
-        <div class="panel-block">
-          <div id="createNewTodoArea">
-            <div class="field is-grouped">
-              <div class="control">
-                <label for="todoTitle"></label>
-                <input id="todoTitle" class="input" type="text" placeholder="Enter todo title">
-              </div>
-              <div class="control">
-                <button type="submit" id="createTodo" class="button is-success is-rounded"
-                        title="Add a new todo to the database">
-                  Add new todo
-                </button>
+    <div class="block">
+      <div class="panel is-warning">
+        <p class="panel-heading has-text-centered">Unfinished</p>
+        <div class="panel-list">
+          <div id="unfinishedTodosArea"></div>
+        </div>
+      </div>
+      <div class="container">
+        <form id="editTodoForm" class="is-hidden">
+          <div class="panel is-info">
+            <p id="editTodoTitle" class="panel-heading"></p>
+            <div class="panel-block">
+              <div class="field">
+                <div class="control">
+                  <label for="completeTodoCheckbox">Complete todo</label>
+                  <input id="completeTodoCheckbox" type="checkbox">
+                </div>
+                <div class="control py-2">
+                  <button id="saveTodoButton" type="submit" class="button is-success">Save Todo</button>
+                  <button id="cancelTodoButton" class="button is-danger">Cancel</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
+    </div>
 
-      <div class="block">
-        <div class="panel is-danger">
-          <p class="panel-heading has-text-centered">Unfinished todos</p>
-          <div class="panel-list">
-            <div id="unfinishedTodosArea"></div>
-          </div>
-        </div>
+    <div class="block py-4">
+      <div class="panel is-success">
+        <p class="panel-heading has-text-centered">Completed</p>
       </div>
-
-      <div class="block py-4">
-        <div class="panel is-success">
-          <p class="panel-heading has-text-centered">Completed todos</p>
-        </div>
-        <div id="completedTodosArea"></div>
-      </div>
-    </form>
+      <div id="completedTodosArea"></div>
+    </div>
   </div>
 </div>
 
 <div class="container">
-  <div class="block">
-    <form id="editTodoForm" class="is-hidden">
-      <div class="panel is-info">
-        <p id="editTodoTitle" class="panel-heading"></p>
-        <div class="panel-block">
-          <div class="field">
-            <div class="control">
-              <label for="completeTodoCheckbox">Complete todo</label>
-              <input id="completeTodoCheckbox" type="checkbox">
-            </div>
-            <div class="control py-2">
-              <button id="saveTodoButton" type="submit" class="button is-success">Save Todo</button>
-              <button id="cancelTodoButton" class="button is-danger">Cancel</button>
-            </div>
+  <div class="panel is-success">
+    <p class="panel-heading has-text-centered">
+      <button id="createTodoButton" class="create-todo-modal" data-target="createTodoModal"
+              title="Add a new todo to the database" style="width: 100%">
+        Add todo
+      </button>
+    </p>
+  </div>
+
+  <div id="createTodoModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <section class="modal-card-body">
+        <div class="grid is-2">
+          <div class="cell">
+            <label for="todoTitle">Todo title</label>
+            <input type="text" id="todoTitle">
           </div>
         </div>
-      </div>
-    </form>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button id="createTodo" class="button is-success">Create</button>
+          <button id="closeModal" class="button is-danger">Cancel</button>
+        </div>
+      </footer>
+    </div>
   </div>
 </div>
 
