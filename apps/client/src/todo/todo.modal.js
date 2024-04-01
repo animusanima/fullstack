@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Add a click event on buttons to open a specific modal
-  (document.querySelectorAll(".create-todo-modal")).forEach(($trigger) => {
+  (document.querySelectorAll(".create-todo-modal, .delete-completed-todo-modal, .delete-unfinished-todo-modal")).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);
 
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Add a click event on various child elements to close the parent modal
-  (document.querySelectorAll(".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button")).forEach(($close) => {
+  (document.querySelectorAll(".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button, #closeDeleteModal, #closeUnfinishedModal, #deleteUnfinishedModal, #closeModal, #createTodo, #deleteCompletedModal")).forEach(($close) => {
     const $target = $close.closest(".modal");
 
     $close.addEventListener("click", () => {
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event.key === "Escape") {
       closeAllModals();
 
-      const elements = document.getElementsByClassName("button is-danger");
+      const elements = document.getElementsByClassName("button is-danger button is-primary is-fullwidth");
       if (elements !== null && elements.length > 0) {
         for (const element of elements) {
           if (element instanceof HTMLButtonElement) {
