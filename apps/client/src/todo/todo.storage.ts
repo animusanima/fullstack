@@ -4,9 +4,9 @@ import { layoutHelper } from "./todo.layout.ts";
 import { api } from "./todo.api.ts";
 import { NotificationHelper } from "./todo.notification.ts";
 
-const storedTodos: Todo[] = [];
+let storedTodos: Todo[] = [];
 
-const completedTodos: Todo[] = [];
+let completedTodos: Todo[] = [];
 
 function storeTodos(todos: Todo[]): void {
   storedTodos.push(...todos);
@@ -43,10 +43,9 @@ export function storeTodo(todo: Todo): void {
 export async function deleteTodo(todo: Todo): Promise<void> {
   await api.deleteTodoById(todo.id);
 
-  const todoIndex = storedTodos.findIndex((element) => element.id === todo.id);
-  storedTodos.splice(todoIndex, 1);
+  storedTodos = storedTodos.filter(element => element.id !== todo.id);
 
-  NotificationHelper.showDeletedNotification();
+  NotificationHelper.showDeletedNotification(false);
 
   showAllTodos();
 }
@@ -54,17 +53,14 @@ export async function deleteTodo(todo: Todo): Promise<void> {
 export async function deleteManyTodos(todos: Todo[]): Promise<void> {
   for (const todo of todos) {
     await api.deleteTodoById(todo.id);
-
     if (todo.completed) {
-      const todoIndex = completedTodos.findIndex(element => element.id == todo.id);
-      completedTodos.splice(todoIndex, 1);
+      completedTodos = completedTodos.filter(element => element.id !== todo.id);
     } else {
-      const todoIndex = storedTodos.findIndex(element => element.id == todo.id);
-      storedTodos.splice(todoIndex, 1);
+      storedTodos = storedTodos.filter(element => element.id !== todo.id);
     }
   }
 
-  NotificationHelper.showDeletedNotification();
+  NotificationHelper.showDeletedNotification(true);
 
   await getAllTodos();
 }
@@ -95,7 +91,7 @@ export async function updateTodo({ todoId, ...input }: UpdateTodoInput & { todoI
   const todoIndex = storedTodos.findIndex((elements) => elements.id === todoId);
   if (todoIndex !== -1) {
     completedTodos.push(updatedTodo);
-    storedTodos.splice(todoIndex, 1);
+    storedTodos = storedTodos.filter(element => element.id !== todoId);
   }
 
   NotificationHelper.showSuccessNotification();
