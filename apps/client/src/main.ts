@@ -5,12 +5,18 @@ todoElements.createButton.onclick = async (): Promise<void> => {
   await storage.createTodo(todoElements.todoTitle.value);
 };
 
-todoElements.deleteCompletedButton.onclick = async (): Promise<void> => {
-  await storage.deleteManyTodos(storage.getCompletedTodos());
+todoElements.deleteCompletedModal.onclick = async (): Promise<void> => {
+  const todosToDelete = storage.getCompletedTodos();
+  if (todosToDelete.length > 0) {
+    await storage.deleteManyTodos(todosToDelete);
+  }
 };
 
-todoElements.deleteUnfinishedButton.onclick = async (): Promise<void> => {
-  await storage.deleteManyTodos(storage.getUnfinishedTodos());
+todoElements.deleteUnfinishedModal.onclick = async (): Promise<void> => {
+  const todosToDelete = storage.getUnfinishedTodos();
+  if (todosToDelete.length > 0) {
+    await storage.deleteManyTodos(todosToDelete);
+  }
 };
 
 void storage.getAllTodos();
