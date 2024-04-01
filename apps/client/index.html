@@ -17,8 +17,31 @@
     <div class="block">
       <div class="panel is-warning">
         <p class="panel-heading has-text-centered">Unfinished
-          <button id="deleteUnfinishedButton" class="is-outlined bi bi-trash"
-                  title="Delete all unfinished"></button>
+          <button id="deleteUnfinishedButton" class="is-outlined bi bi-trash delete-unfinished-todo-modal"
+                  title="Delete all unfinished" data-target="deleteUnfinishedTodoModal"></button>
+
+          <div id="deleteUnfinishedTodoModal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <section class="modal-card-body">
+                <div class="grid is-2">
+                  <div class="cell">
+                    <p class="has-text-centered">Do you really want to delete all <b>unfinished</b> todos?</p>
+                  </div>
+                </div>
+              </section>
+              <div class="fixed-grid has-2-cols">
+                <div class="grid">
+                  <div class="cell">
+                    <button id="deleteUnfinishedModal" class="button is-danger is-fullwidth">Delete</button>
+                  </div>
+                  <div class="cell">
+                    <button id="closeUnfinishedModal" class="button is-primary is-fullwidth">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </p>
         <div class="panel-list">
           <div id="unfinishedTodosArea"></div>
@@ -35,8 +58,8 @@
                   <input id="completeTodoCheckbox" type="checkbox">
                 </div>
                 <div class="control py-2">
-                  <button id="saveTodoButton" type="submit" class="button is-success">Save Todo</button>
-                  <button id="cancelTodoButton" class="button is-danger">Cancel</button>
+                  <button id="saveTodoButton" type="submit" class="button is-success is-pulled-left">Save Todo</button>
+                  <button id="cancelTodoButton" class="button is-danger is-pulled-right">Cancel</button>
                 </div>
               </div>
             </div>
@@ -48,8 +71,30 @@
     <div class="block py-4">
       <div class="panel is-success">
         <p class="panel-heading has-text-centered">Completed
-          <button id="deleteCompletedButton" class="is-outlined bi bi-trash"
-                  title="Delete all completed"></button>
+          <button id="deleteCompletedButton" class="is-outlined bi bi-trash delete-completed-todo-modal"
+                  title="Delete all completed" data-target="deleteCompletedTodoModal"></button>
+          <div id="deleteCompletedTodoModal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <section class="modal-card-body">
+                <div class="grid is-2">
+                  <div class="cell">
+                    <p class="has-text-centered">Do you really want to delete all <b>completed</b> todos?</p>
+                  </div>
+                </div>
+              </section>
+              <div class="fixed-grid has-2-cols">
+                <div class="grid">
+                  <div class="cell">
+                    <button id="deleteCompletedModal" class="button is-danger is-fullwidth">Delete</button>
+                  </div>
+                  <div class="cell">
+                    <button id="closeDeleteModal" class="button is-primary is-fullwidth">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </p>
       </div>
       <div id="completedTodosArea"></div>
@@ -58,7 +103,7 @@
 </div>
 
 <div class="container">
-  <div class="panel is-success">
+  <div class="panel is-link">
     <p class="panel-heading has-text-centered">
       <button id="createTodoButton" class="create-todo-modal" data-target="createTodoModal"
               title="Add a new todo to the database" style="width: 100%">
@@ -78,12 +123,16 @@
           </div>
         </div>
       </section>
-      <footer class="modal-card-foot">
-        <div class="buttons">
-          <button id="createTodo" class="button is-success">Create</button>
-          <button id="closeModal" class="button is-danger">Cancel</button>
+      <div class="fixed-grid has-2-cols">
+        <div class="grid">
+          <div class="cell">
+            <button id="createTodo" class="button is-success is-fullwidth">Create</button>
+          </div>
+          <div class="cell">
+            <button id="closeModal" class="button is-danger is-fullwidth">Cancel</button>
+          </div>
         </div>
-      </footer>
+      </div>
     </div>
   </div>
 </div>
